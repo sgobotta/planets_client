@@ -6,13 +6,22 @@ import Link from 'next/link'
 
 
 const PLANETS_QUERY = gql`
-  query {
-    id,
-    name,
-    description,
-    dimension
+  query GetPlanets {
+    planets {
+      id,
+      name,
+      description,
+      dimension
+    }
   }
 `;
+
+export type Planet = {
+  id: string;
+  name: string;
+  description: string;
+  dimension: number
+}
 
 function Planets() {
   const { loading, error, data } = useQuery(PLANETS_QUERY);
@@ -22,24 +31,27 @@ function Planets() {
 
   return (
     <div className="sm:w-1/3">
-      <h1 className="text-4xl">{data.name}</h1>
-      <Link href={`/planets/${data.id}`} className="text-xs underline">
-        <code>
-          {data.id}
-        </code>
-      </Link>
-      <div className="my-2">
-        <p className="italic text-zinc-500">{data.description}</p>
-      </div>
-      <div className="my-2">
-        <ul>
-          <li>
-            <span className="font-bold">Dimension</span>: {data.dimension}
-          </li>
-        </ul>
-      </div>
+      {data.planets.map((planet: Planet, index: number) => (
+        <div key={`planet-${index}`}>
+          <h1 className="text-4xl">{planet.name}</h1>
+          <Link href={`/planets/${planet.id}`} className="text-xs underline">
+            <code>
+              {planet.id}
+            </code>
+          </Link>
+          <div className="my-2">
+            <p className="italic text-zinc-500">{planet.description}</p>
+          </div>
+          <div className="my-2">
+            <ul>
+              <li>
+                <span className="font-bold">Dimension</span>: {planet.dimension}
+              </li>
+            </ul>
+          </div>
+        </div>
+      ))}
     </div>
-
   )
 }
 
