@@ -61,6 +61,11 @@ export default function PlanetsPage() {
       <div className="flex flex-row min-h-screen justify-center items-center">
         <Planets />
       </div>
+      <div className="absolute bottom-10 right-10 w-8 h-8 bg-zinc-700 flex items-center justify-center rounded-full text-zinc-50 hover:cursor-pointer hover:bg-zinc-500">
+        <Link href={"/planets/new"} className="hover:cursor-pointer">
+          +
+        </Link>
+      </div>
     </ApolloProvider>
   )
 }
